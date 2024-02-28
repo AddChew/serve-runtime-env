@@ -23,7 +23,7 @@ class XGBoostModel:
 
     def __init__(self, 
                  model_path: str = "./models/xgboost_model.json",
-                 log_file: str = "./logs/xgboost_model_pip.log",
+                 log_file: str = "./logs/xgboost_model_conda.log",
                  ):
         streamhandler = logging.StreamHandler()
         streamhandler.setLevel(logging.DEBUG)

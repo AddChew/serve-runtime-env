@@ -14,7 +14,14 @@ class Input(BaseModel):
     route_prefix = "/sklearn",
     ray_actor_options={
         "runtime_env": {
-            "pip": ["joblib==1.3.2", "scikit-learn==1.4.1.post1"]
+            "conda": {
+                "dependencies": [
+                    "pip", 
+                    {
+                        "pip": ["joblib==1.3.2", "scikit-learn==1.4.1.post1", "ray[serve]"]
+                    }
+                ]
+            }
         }
     }
 )
@@ -23,7 +30,7 @@ class SklearnModel:
 
     def __init__(self, 
                  model_path: str = "./models/sklearn_model.joblib",
-                 log_file: str = "./logs/sklearn_model_pip.log",
+                 log_file: str = "./logs/sklearn_model_conda.log",
                  ):
         streamhandler = logging.StreamHandler()
         streamhandler.setLevel(logging.DEBUG)
