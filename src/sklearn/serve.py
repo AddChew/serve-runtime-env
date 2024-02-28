@@ -23,7 +23,7 @@ class SklearnModel:
 
     def __init__(self, 
                  model_path: str = "./models/sklearn_model.joblib",
-                 log_file: str = "./logs/sklearn_model.log",
+                 log_file: str = "./logs/sklearn_model_pip.log",
                  ):
         streamhandler = logging.StreamHandler()
         streamhandler.setLevel(logging.DEBUG)
