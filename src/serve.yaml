@@ -1,0 +1,52 @@
+# This file was generated using the `serve build` command on Ray v2.7.0.
+
+proxy_location: EveryNode
+
+http_options:
+
+  host: 0.0.0.0
+
+  port: 8000
+
+grpc_options:
+
+  port: 9000
+
+  grpc_servicer_functions: []
+
+applications:
+
+- name: sklearn
+
+  route_prefix: /sklearn
+
+  import_path: src.sklearn.serve:sklearn_model
+
+  runtime_env: {}
+
+  deployments:
+
+  - name: SklearnModel
+    ray_actor_options:
+      runtime_env:
+        pip:
+        - joblib==1.3.2
+        - scikit-learn==1.4.1.post1
+      num_cpus: 1.0
+
+- name: xgboost
+
+  route_prefix: /xgboost
+
+  import_path: src.xgboost.serve:xgboost_model
+
+  runtime_env: {}
+
+  deployments:
+
+  - name: XGBoostModel
+    ray_actor_options:
+      runtime_env:
+        pip:
+        - xgboost==2.0.3
+      num_cpus: 1.0

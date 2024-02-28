@@ -11,19 +11,19 @@ class Input(BaseModel):
     feature_values: List[float]
 
 @serve.deployment(
-    route_prefix = "/sklearn",
+    route_prefix = "/xgboost",
     ray_actor_options={
         "runtime_env": {
-            "pip": ["joblib==1.3.2", "scikit-learn==1.4.1.post1"]
+            "pip": ["xgboost==2.0.3"]
         }
     }
 )
 @serve.ingress(app)
-class SklearnModel:
+class XGBoostModel:
 
     def __init__(self, 
-                 model_path: str = "./models/sklearn_model.joblib",
-                 log_file: str = "./logs/sklearn_model.log",
+                 model_path: str = "./models/xgboost_model.json",
+                 log_file: str = "./logs/xgboost_model.log",
                  ):
         streamhandler = logging.StreamHandler()
         streamhandler.setLevel(logging.DEBUG)
@@ -61,10 +61,12 @@ class SklearnModel:
         except ImportError:
             self.logger.error("joblib library not installed!")     
         
-        self.model = joblib.load(model_path)
+        self.model = xgboost.Booster()
+        self.model.load_model(model_path)
 
     @app.post("/predict")
     def predict(self, input: Input) -> int:
-        return self.model.predict([input.feature_values]).item(0)
+        import xgboost
+        return self.model.predict(xgboost.DMatrix([input.feature_values])).item(0)
     
-sklearn_model = SklearnModel.bind()
+xgboost_model = XGBoostModel.bind()
