@@ -40,6 +40,7 @@ class SklearnModel:
         try:
             import xgboost
             self.logger.info(f"Imported xgboost=={xgboost.__version__} successfully!")
+            self.logger.info(f"xgboost path: {xgboost.__file__}")
         except ImportError:
             self.logger.error("xgboost library not installed!")
 
@@ -47,6 +48,7 @@ class SklearnModel:
         try:
             import sklearn
             self.logger.info(f"Imported sklearn=={sklearn.__version__} successfully!")
+            self.logger.info(f"sklearn path: {sklearn.__file__}")
         except ImportError:
             self.logger.error("sklearn library not installed!")
 
@@ -54,6 +56,7 @@ class SklearnModel:
         try:
             import joblib
             self.logger.info(f"Imported joblib=={joblib.__version__} successfully!")
+            self.logger.info(f"joblib path: {joblib.__file__}")
         except ImportError:
             self.logger.error("joblib library not installed!")     
         
