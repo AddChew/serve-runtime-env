@@ -1,4 +1,5 @@
 import logging
+import subprocess
 
 from ray import serve
 from typing import List
@@ -66,7 +67,11 @@ class SklearnModel:
             self.logger.info(f"Imported joblib=={joblib.__version__} successfully!")
             self.logger.info(f"joblib path: {joblib.__file__}")
         except ImportError:
-            self.logger.error("joblib library not installed!")     
+            self.logger.error("joblib library not installed!")
+
+        out = subprocess.run(["conda", "list"], capture_output = True)
+        self.logger.info("Conda env libraries:")
+        self.logger.info(out.stdout.decode('utf-8'))  
         
         self.model = joblib.load(model_path)
 

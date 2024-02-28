@@ -1,4 +1,5 @@
 import logging
+import subprocess
 
 from ray import serve
 from typing import List
@@ -59,7 +60,11 @@ class XGBoostModel:
             self.logger.info(f"Imported joblib=={joblib.__version__} successfully!")
             self.logger.info(f"joblib path: {joblib.__file__}")
         except ImportError:
-            self.logger.error("joblib library not installed!")     
+            self.logger.error("joblib library not installed!")
+
+        out = subprocess.run(["pip", "list"], capture_output = True)
+        self.logger.info("Virtualenv libraries:")
+        self.logger.info(out.stdout.decode('utf-8'))     
         
         self.model = xgboost.Booster()
         self.model.load_model(model_path)
